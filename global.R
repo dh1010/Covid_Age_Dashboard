@@ -1,3 +1,4 @@
+# LIBRARIES
 library(shiny)
 library(tidyr)
 library(dplyr)
@@ -12,18 +13,16 @@ library(ggplot2)
 library(scales)
 library(ggtext)
 
-Risk_data <- readr::read_csv(here::here("Data/Covid_data_postprocessedv5.csv"))
-#unique(Risk_data$name)
 
-# risk2 <- Risk_data %>%
-#   mutate(name = case_when(name == "Type 1 <= HbA158 mmol/mol in past year" ~ "Type 1 HbA1 <= 58 mmol/mol in past year",        
-#                           name == "Type 1 > HbA158 mmol/mol in past year" ~ "Type 1 HbA1 > 58 mmol/mol in past year",   
-#                           name == "Type 2 and other <= HbA158 mmol/mol in past year" ~ "Type 2 and other HbA1 <= 58 mmol/mol in past year",
-#                           name == "Type 2 and other > HbA158 mmol/mol in past year" ~ "Type 2 and other HbA1 > 58 mmol/mol in past year", 
-#                            T ~ name))
-# 
-# write_csv(risk2, here::here("Data/Covid_data_postprocessedv5.csv"))
+# LOAD DATA
+Risk_data <- readr::read_csv(here::here("Data/Covid_data_postprocessedv5.csv"))
+
+Fatality_Rate <- readr::read_csv(here::here("Data/Fatailty_Rate.csv"))
+
+Variable_lookup <- readr::read_csv(here::here("Data/Variable_lookup.csv")) 
   
+
+# DERIVE LOOKUP TABLES
 Sex <- Risk_data %>% filter(group == "Sex")
 
 Ethnicity <- Risk_data %>% filter(group == "Ethnicity")
@@ -45,8 +44,7 @@ Heart <- Risk_data %>% filter(group == "Heart")
 Other <- Risk_data %>% filter(group == "Other")
 
 
-Variable_lookup <- readr::read_csv(here::here("Data/Variable_lookup.csv")) %>%
-  select(group, name, Information)
+
 
 
   

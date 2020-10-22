@@ -122,7 +122,9 @@ dashboardPage(
                         reactableOutput("covidtable")),
                box(width = 12, status = "primary",
                    background = "light-blue",
-                   textOutput("covid_age")
+                   uiOutput("covid_age"),
+                   uiOutput("covid_fatality")
+                   
                    ),
                box(width = 12,
                    h5("Estimates of Covid-age are based on published epidemiological data and may be revised if new research is reported that materially changes the balance of available evidence. Where an individual has multiple health conditions the calculator may overestimate vulnerability somewhat, especially in young adults."),

@@ -27,28 +27,70 @@ shinyServer(function(input, output) {
         )
     })
     
+  modifier <- reactive(
+    user_profile()%>%
+      summarise(modifier = sum(value, na.rm = T)) %>%
+      pull()
+    )
+  
+  covid_age <- reactive(modifier() + input$age_in)
+  
+  upper_fatality_rate <- reactive(
+    Fatality_Rate %>% 
+      filter(`Covid-age` == covid_age()) %>%
+      pull(`Infection fatality rate per 1000 Upper bound`)
+  )
+  
+  lower_fatality_rate <- reactive(
+    Fatality_Rate %>% 
+      filter(`Covid-age` == covid_age()) %>%
+      pull(`Infection fatality rate per 1000 Lower bound`)
+  )
+    
     # Calculate Covid-age using the user-input
     # This is matched to data provided by the ALAMA group
     # https://alama.org.uk/covid-19-medical-risk-assessment/
-    output$covid_age <- renderText({
+  output$covid_age <- renderUI({
+    
+    if (covid_age() < 20) {
       
-      modifier <-
-          user_profile()%>%
-            summarise(modifier = sum(value, na.rm = T)) %>%
-            pull()
-        
-        covid_age <- modifier + input$age_in
-        
-        if (covid_age <= 85){
-          as.character(glue::glue("Covid-age: {input$age_in} + {modifier} = {covid_age}"))
-        }else if (covid_age > 85){
-          as.character(glue::glue("Covid-age: {input$age_in} + {modifier} = 85+"))
-        }else{
-          "Covid-age not available"
+      HTML(glue::glue("<h3>Covid-age: {input$age_in} + {modifier()} = 20-<h3/>"))
+      
+    } else if (covid_age() <= 85){
+      
+      HTML(glue::glue("<h3>Covid-age: {input$age_in} + {modifier()} = {covid_age()}<h3/>"))
+      
+    }else if (covid_age() > 85){
+      
+      HTML(glue::glue("<h3>Covid-age: {input$age_in} + {modifier()} = 85+<h3/>"))
+      
+    }else{
+      
+      HTML("Covid-age not available")
+      
+    }
+    
+    
+    
+  })
+  
+    output$covid_fatality <- renderUI({
+
+        if (covid_age() < 20){
+          HTML(glue::glue("<h5>If infection occurs, the probability that it will be fatal is expected to lie between {min(Fatality_Rate$`Infection fatality rate per 1000 Lower bound`)} per 1000 and {min(Fatality_Rate$`Infection fatality rate per 1000 Upper bound`)} per 1000 <br/> For Covid-ages less than 20, the risk of fatality may be even lower than indicated<h5/>"))
+        } else if (covid_age() <= 85) {
+          
+          HTML(glue::glue("<h5>If infection occurs, the probability that it will be fatal is expected to lie between {lower_fatality_rate()} per 1000 and {upper_fatality_rate()} per 1000<h5/>"))
+          
+        } else if (covid_age() > 85) {
+          
+          HTML(glue::glue("<h5>If infection occurs, the probability that it will be fatal is expected to lie between {max(Fatality_Rate$`Infection fatality rate per 1000 Lower bound`)} per 1000 and {max(Fatality_Rate$`Infection fatality rate per 1000 Upper bound`)} per 1000<h5/>"))
+        } else{
+          HTML("<h5>Infection fatality rate per 1000 not available<h5/>")
         }
-        
-        
-        
+
+
+
     })
     
     # Build the Covid information table from the user profile

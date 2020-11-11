@@ -1,5 +1,5 @@
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
     
   # If nothing is selected in the "other" group change input to "None"
   # This silences errors in the variable matching.
@@ -113,4 +113,39 @@ shinyServer(function(input, output) {
         
     })
     
+    
+
+# CALCULATE BMI -----------------------------------------------------------
+
+  observeEvent(input$calc_bmi,{
+    #browser()
+    showModal(modalDialog("Please select height and weight:",
+              numericInput("bmi_height", "Height", value = 1.8, min = 0, max = 4, step = 0.1),
+              numericInput("bmi_weight", "Weight", value = 80, min = 0, max = 500),
+              
+              footer = tagList(
+                actionButton("modal_calc", "Calculate"),
+                      modalButton("Exit")
+                    )
+              
+              ))
+    
+  })
+    
+  observeEvent(input$modal_calc ,{
+
+    bmi <- round(input$bmi_weight / input$bmi_height^2, digits = 2)
+
+    if(bmi < 30) {bmi_round <- "<30"}
+    else if(bmi < 35) {bmi_round <- "30-34.9"}
+    else if(bmi < 40) {bmi_round <- "35-39.9"}
+    else if(bmi >= 40) {bmi_round <- "40"}
+    
+    
+    output$bmi_print <- renderText(glue::glue("BMI = {bmi}"))
+    
+    updatePickerInput(session, "bmi_in", label = "Calculated BMI group", selected = bmi_round)
+
+  })
+  
 })

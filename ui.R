@@ -77,8 +77,12 @@ dashboardPage(
 
                         pickerInput("eth_in", "Ethnicity",
                                      choices = unique(Ethnicity$name)),
+                   
+                        actionButton("calc_bmi", "Calculate BMI"),
+                   
+                        textOutput("bmi_print"),
 
-                        pickerInput("bmi_in", "BMI", selected = NULL,
+                        pickerInput("bmi_in", "Or input BMI manually", selected = NULL,
                                     choices = c("Please select", "<30", unique(BMI$name))),
 
                         pickerInput("asthma_in", "Asthma", selected = "None",

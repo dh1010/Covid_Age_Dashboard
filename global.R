@@ -12,6 +12,7 @@ library(tidyselect)
 library(ggplot2)
 library(scales)
 library(ggtext)
+library(shinyBS)
 
 
 # LOAD DATA
@@ -31,7 +32,12 @@ BMI <- Risk_data %>% filter(group == "BMI")
 
 Asthma <- Risk_data %>% filter(group == "Asthma")
 
-Diabetes <- Risk_data %>% filter(group == "Diabetes")
+Diabetes <- Risk_data %>% filter(group == "Diabetes") %>%
+  mutate(name = case_when(name == "Type 1 HbA1 <= 58 mmol/mol in past year"  ~ "Type 1 HbA1c less than or equal to 58 mmol/mol in past year",
+                   name == "Type 1 HbA1 > 58 mmol/mol in past year"  ~ "Type 1 HbA1c greater than 58 mmol/mol in past year",
+                   name == "Type 2 and other HbA1 <= 58 mmol/mol in past year" ~ "Type 2 and other HbA1c less than or equal to 58 mmol/mol in past year",
+                   name == "Type 2 and other HbA1 > 58 mmol/mol in past year" ~ "Type 2 and other HbA1c greater than 58 mmol/mol in past year",
+                   TRUE ~ name))
 
 Chronic_kidney_disease <- Risk_data %>% filter(group == "Chronic kidney disease")
 

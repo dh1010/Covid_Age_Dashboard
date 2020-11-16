@@ -46,6 +46,7 @@ dashboardPage(
                     color:#018bd3;
                     background:#018bd3
                     }
+                    
 
                     .box.box-solid.box-primary{
                     border-bottom-color:#018bd3;
@@ -75,51 +76,120 @@ dashboardPage(
                         radioButtons("sex_in", "Sex",
                                      choices = c("Female", "Male")),
 
-                        pickerInput("eth_in", "Ethnicity",
+                   selectInput("eth_in", "Ethnicity",
                                      choices = unique(Ethnicity$name)),
-                   
-                        actionButton("calc_bmi", "Calculate BMI"),
-                   
-                        textOutput("bmi_print"),
+                   fluidRow(
+                   column(width = 4, actionButton("calc_bmi", "Calculate BMI")),
+                   column(width = 8, textOutput("bmi_print"))),br(),
 
-                        pickerInput("bmi_in", "Or input BMI manually", selected = NULL,
+                   selectInput("bmi_in", "Or input BMI manually", selected = NULL,
                                     choices = c("Please select", "<30", unique(BMI$name))),
 
-                        pickerInput("asthma_in", "Asthma", selected = "None",
+                        selectInput("asthma_in", "Asthma", selected = "None",
                                      choices = c("None", "Mild", "Severe")),
+                   
+                   bsPopover("asthma_in", "Asthma",
+                             paste0(
+                             "<p>Mild:  No requirement for oral corticosteroids in past year</p>",
+                             "<p>Severe:  Requiring oral corticosteroids in past year</p>"
+                             ),
+                             "right", options = list(container = "body")),
+                  
 
-                        pickerInput("diabetes_in", "Diabetes", selected = "None",
+                        selectInput("diabetes_in", "Diabetes", selected = "None",
                                     choices = c("None", 
-                                                "Type 1 HbA1 <= 58 mmol/mol in past year",
-                                                "Type 1 HbA1 > 58 mmol/mol in past year",
+                                                "Type 1 HbA1c less than or equal to 58 mmol/mol in past year" ,
+                                                "Type 1 HbA1c greater than 58 mmol/mol in past year",
                                                 "Type 1 HbA1c unknown",
-                                                "Type 2 and other HbA1 <= 58 mmol/mol in past year",
-                                                "Type 2 and other HbA1 > 58 mmol/mol in past year",
+                                                "Type 2 and other HbA1c less than or equal to 58 mmol/mol in past year",
+                                                "Type 2 and other HbA1c greater than 58 mmol/mol in past year",
                                                 "Type 2 and other HbA1c unknown"  )),
 
-                        pickerInput("kidney_in", "Chronic kidney disease", selected = "None",
-                                    choices = c("None", "Estimated < GFR 30 mL/min", "Estimated GFR 30-60 mL/min")),
+                   
+                   selectInput("kidney_in", "Chronic kidney disease", selected = "None",
+                                    choices = c("None", 
+                                                "Estimated GFR less than 30 mL/min  (includes patients on dialysis)" = "Estimated < GFR 30 mL/min", 
+                                                "Estimated GFR 30-60 mL/min")),
 
-                        pickerInput("non_hae_in", "Non-haematological cancer", selected = "None",
+                   selectInput("non_hae_in", "Cancer other than leukaemia, lymphoma or myeloma", selected = "None",
                                     choices = c("None", "Diagnosed < 1 year ago", "Diagnosed 1-4.9 years ago", "Diagnosed >= 5 years ago")),
 
-                        pickerInput("hae_mal_in", "Haematological cancer", selected = "None",
+                   selectInput("hae_mal_in", "Leukaemia, lymphoma or myeloma", selected = "None",
                                     choices = c("None", unique(Haematological_cancer$name))),
 
-                        pickerInput("heart_in", "Heart", selected = "None",
-                                    choices = c("None", unique(Heart$name))),
-
-                        pickerInput("other_in", "Other conditions", selected = NULL, multiple = T,
-                                    choices = c("Other chronic respiratory disease",
-                                                "Hypertension",
-                                                "Cerebrovascular disease",
-                                                "Liver disease",
-                                                "Chronic neurological disease other than stroke or dementia",
-                                                "Organ transplant",
-                                                "Spleen diseases",
-                                                "Rheumatoid/lupus/psoriasis",
-                                                "Other immunosuppressive condition")),
-                    )
+                   selectInput("heart_in", "Heart", selected = "None",
+                                    choices = c("None", "Heart failure",  "Other chronic heart disease with no associated heart failure")),
+                   
+                   # Other
+                   
+                   checkboxInput(
+                       inputId = "ocrd", 
+                       label = tags$span(id = "ocrd_lab", "Other chronic respiratory disease")
+                   ),
+                   bsTooltip(
+                       id = "ocrd_lab", 
+                        "Includes chronic obstructive pulmonary disease (COPD), chronic bronchitis, emphysema, pulmonary fibrosis, bronchiectasis, cystic fibrosis"
+                   ),
+                   
+                   checkboxInput(
+                       inputId = "ht",
+                       label = tags$span(id = "ht_lab", "Hypertension")
+                   ),
+                   bsTooltip(
+                       id = "ht", 
+                       "Known diagnosis of hypertension or high blood pressure, with or without treatment"
+                   ),
+                   
+                   checkboxInput("cvd", label = tags$span(id = "cvd_lab", "Cerebrovascular disease") ),
+                   bsTooltip("cvd", "Includes previous stroke and transient ischaemic attacks",
+                             "right", options = list(container = "body")),
+                   
+                   checkboxInput(
+                       inputId = "ld",
+                       label = tags$span(id = "ld_lab", "Liver Disease")
+                   ),
+                   bsTooltip(
+                       id = "ld_lab", 
+                       "Includes cirrhosis"
+                   ),
+                   
+                   checkboxInput(
+                       inputId = "cnd",
+                       label = tags$span(id = "cnd_lab", "Chronic neurological disease other than stroke or dementia")
+                   ),
+                   bsTooltip(
+                       id = "cnd_lab", 
+                       "Includes motor neurone disease, myasthenia gravis, multiple sclerosis, Parkinson’s disease, cerebral palsy, quadriplegia, hemiplegia and progressive cerebellar disease"
+                   ),
+                   
+                   checkboxInput(
+                       inputId = "organ",
+                       label = tags$span(id = "organ_lab", "Organ transplant")
+                   ),
+                   
+                   checkboxInput(
+                       inputId = "spleen",
+                       label = tags$span(id = "spleen_lab", "Spleen diseases")
+                   ),
+                   bsTooltip(
+                       id = "spleen_lab", 
+                       "Includes splenectomy, or spleen dysfunction (e.g. from sickle cell disease)"
+                   ),
+                   
+                   checkboxInput(
+                       inputId = "rlp",
+                       label = tags$span(id = "rlp_lab", "Rheumatoid/lupus/psoriasis")
+                   ),
+                   
+                   checkboxInput(
+                       inputId = "immuno",
+                       label = tags$span(id = "immuno_lab", "Other immunosuppressive condition")
+                   ),
+                   bsTooltip(
+                       id = "immuno_lab", 
+                       "Includes splenectomy, or spleen dysfunction (e.g. from sickle cell disease)"
+                   ),
+            )
         ),
         column(width = 6,
                box(width = 12, status = "primary",

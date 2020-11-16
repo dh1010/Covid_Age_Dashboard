@@ -4,6 +4,8 @@ shinyServer(function(input, output, session) {
   # If nothing is selected in the "other" group change input to "None"
   # This silences errors in the variable matching.
     other <- reactive({
+      
+      input$ocrd
         if(is.null(input$other_in)){
             "None"
         } else{input$other_in}
@@ -23,6 +25,7 @@ shinyServer(function(input, output, session) {
                  name  == input$non_hae_in & group == "Non-haematological cancer"|
                  name == input$heart_in & group == "Heart"|
                  name == input$hae_mal_in & group == "Haematological cancer"|
+                 name == input$ocrd & group == "Other"|
                  name %in% other() & group == "Other"
         )
     })
@@ -120,8 +123,8 @@ shinyServer(function(input, output, session) {
   observeEvent(input$calc_bmi,{
     #browser()
     showModal(modalDialog("Please select height and weight:",
-              numericInput("bmi_height", "Height", value = 1.8, min = 0, max = 4, step = 0.1),
-              numericInput("bmi_weight", "Weight", value = 80, min = 0, max = 500),
+              numericInput("bmi_height", "Height", value = 1.6, min = 0, max = 4, step = 0.01),
+              numericInput("bmi_weight", "Weight", value = 60, min = 0, max = 500),
               
               footer = tagList(
                 actionButton("modal_calc", "Calculate"),
@@ -142,10 +145,19 @@ shinyServer(function(input, output, session) {
     else if(bmi >= 40) {bmi_round <- "40"}
     
     
-    output$bmi_print <- renderText(glue::glue("BMI = {bmi}"))
+    output$bmi_print <- renderText(glue::glue("Calculated BMI = {bmi}"))
     
     updatePickerInput(session, "bmi_in", label = "Calculated BMI group", selected = bmi_round)
 
   })
+  
+
+# TOOLTIPS ----------------------------------------------------------------
+
+  # addPopover(session, "calc_bmi", "Data", content = paste0("<p>Waiting time between ",
+  #                                                          "eruptions and the duration of the eruption for the Old Faithful geyser ",
+  #                                                          "in Yellowstone National Park, Wyoming, USA.</p><p>Azzalini, A. and ",
+  #                                                          "Bowman, A. W. (1990). A look at some data on the Old Faithful geyser. ",
+  #                                                          "Applied Statistics 39, 357-365.</p>"), trigger = 'hover')  
   
 })

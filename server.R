@@ -5,15 +5,25 @@ shinyServer(function(input, output, session) {
   # This silences errors in the variable matching.
     other <- reactive({
       
-      input$ocrd
-        if(is.null(input$other_in)){
-            "None"
-        } else{input$other_in}
+      tribble(
+        ~variable, ~condition,
+        "Other chronic respiratory disease", input$ocrd,
+        "Hypertension", input$ht,
+        "Cerebrovascular disease", input$cvd,
+        "Liver disease", input$ld,
+        "Chronic neurological disease other than stroke or dementia", input$cnd,
+        "Organ transplant", input$organ,
+        "Spleen diseases", input$spleen,
+        "Rheumatoid/lupus/psoriasis", input$rlp,
+        "Other immunosuppressive condition", input$immuno
+      )  %>% 
+        filter(condition == TRUE) %>%
+        pull(variable)
     })
     
     # Create the user profile based on user input
     user_profile <- reactive({
-      
+
       Risk_data %>%  
         filter(age == input$age_in,
                name == input$sex_in & group == "Sex"|
@@ -25,7 +35,6 @@ shinyServer(function(input, output, session) {
                  name  == input$non_hae_in & group == "Non-haematological cancer"|
                  name == input$heart_in & group == "Heart"|
                  name == input$hae_mal_in & group == "Haematological cancer"|
-                 name == input$ocrd & group == "Other"|
                  name %in% other() & group == "Other"
         )
     })

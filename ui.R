@@ -3,7 +3,7 @@ library(shinydashboard)
 
 dashboardPage(
   dashboardHeader(
-    title = span(img(src = "logo.jpg", width = "200px")), # "Covid Age",
+    title = HTML('<div> <img src="logo.jpg" height="60" width="120"/>'),#span(img(src = "logo.jpg", width = "200px")), # "Covid Age",
     tags$li(div(h4("Covid-age"),
       style = "padding-top:10px; paddingbottom:10px;margin-right:30px;color:white"
     ),

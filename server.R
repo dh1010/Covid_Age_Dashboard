@@ -130,10 +130,23 @@ shinyServer(function(input, output, session) {
 # CALCULATE BMI -----------------------------------------------------------
 
   observeEvent(input$calc_bmi,{
-    #browser()
-    showModal(modalDialog("Please select height and weight:",
-              numericInput("bmi_height", "Height", value = 1.6, min = 0, max = 4, step = 0.01),
-              numericInput("bmi_weight", "Weight", value = 60, min = 0, max = 500),
+    #
+    showModal(modalDialog("",
+                          
+                          tabBox(
+                            title = HTML("<h4>Please input height and weight:</h5>"),
+                            # The id lets us use input$tabset1 on the server to find the current tab
+                            id = "bmibox", height = "250px",
+                            tabPanel("Metric", 
+                                     numericInput("bmi_height_met", "Height (m)", value = 1.6, min = 0, max = 4, step = 0.01),
+                                     numericInput("bmi_weight_met", "Weight (kg)", value = 60, min = 0, max = 500)),
+                            tabPanel("Imperial", h4("Height"),
+                                     column(width = 5, numericInput("bmi_height_imp_ft", "Feet", value = 5, min = 0, max = 9, step = 1)),
+                                     column(width = 5, numericInput("bmi_height_imp_inch", "Inches", value = 0, min = 0, max = 12, step = 0.1)),
+                                     h4("Weight"),
+                                     column(width = 5, numericInput("bmi_weight_imp_st", "Stone", value = 10, min = 0, max = 80)),
+                                     column(width = 5, numericInput("bmi_weight_imp_lb", "Pounds", value = 0, min = 0, max = 14)))
+                          ),
               
               footer = tagList(
                 actionButton("modal_calc", "Calculate"),
@@ -145,13 +158,25 @@ shinyServer(function(input, output, session) {
   })
     
   observeEvent(input$modal_calc ,{
+   # browser()
+    if (input$bmibox == "Metric") {
+      
+      bmi <- round(input$bmi_weight_met / input$bmi_height_met^2, digits = 2)
+      
+    } else if (input$bmibox == "Imperial") {
+      
+      height_inch <- (input$bmi_height_imp_ft * 12) + input$bmi_height_imp_inch
+      weight_lbs <- (input$bmi_weight_imp_st * 14) + input$bmi_weight_imp_lb
+      
+      bmi <- round(703 * (weight_lbs / height_inch^2), digits = 2)
+    }
 
-    bmi <- round(input$bmi_weight / input$bmi_height^2, digits = 2)
+    
 
-    if(bmi < 30) {bmi_round <- "<30"}
+    if(bmi < 30) {bmi_round <- "Less than 30"}
     else if(bmi < 35) {bmi_round <- "30-34.9"}
     else if(bmi < 40) {bmi_round <- "35-39.9"}
-    else if(bmi >= 40) {bmi_round <- "40"}
+    else if(bmi >= 40) {bmi_round <- "Greater than or equal to 40"}
     
     
     output$bmi_print <- renderText(glue::glue("Calculated BMI = {bmi}"))

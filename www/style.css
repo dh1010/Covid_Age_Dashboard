@@ -1,0 +1,42 @@
+.skin-blue .main-sidebar {
+  background-color: white;
+}
+  
+.skin-blue .main-header .logo {
+  background-color: #018bd3;
+  
+  }
+  
+.skin-blue .main-header .navbar {
+  background-color: #018bd3;
+}
+
+.skin-blue .main-header .logo:hover {
+  background-color: #018bd3;
+}
+
+.box.box-primary {
+  border-top-color: #018bd3;
+
+}
+
+.div .light-blue {
+  background-color: #018bd3;
+}
+
+.bg-light-blue, .label-primary, .modal-primary .modal-body {
+  background-color: #018bd3 !important;
+  }
+  
+.box.box-solid.box-primary>.box-header {
+  color:#018bd3;
+  background:#018bd3
+  }
+  
+.box.box-solid.box-primary{
+  border-bottom-color:#018bd3;
+  border-left-color:#018bd3;
+  border-right-color:#018bd3;
+  border-top-color:#018bd3;
+  background:#018bd3
+}

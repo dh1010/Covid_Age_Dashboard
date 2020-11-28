@@ -1,0 +1,28 @@
+group,name,Information
+Asthma,Severe,Has required treatment with oral steroids in the past twelve months
+Other,Spleen diseases,"Includes splenectomy, or spleen dysfunction (e.g. from sickle cell disease). This is
+a broad group and clinical judgement may be needed to account for differences in vulnerability
+within the category"
+Other,Other immunosuppressive condition,"Includes HIV, conditions inducing permanent
+immunodeficiency (ever diagnosed), aplastic anaemia, and temporary immunodeficiency recorded
+within the past year. Does not include treatment with immunosuppressant medication. Do not
+use for diseases with immunosuppressive effects that are covered elsewhere in the calculator."
+Other,Rheumatoid/lupus/psoriasis,Value represents average
+Haematological cancer,Diagnosed < 1 year ago,"across category, including some people receiving immunosuppressive treatments"
+Haematological cancer,Diagnosed 1-4.9 years ago,"Value represents average
+across category, including some people receiving immunosuppressive treatments"
+Haematological cancer,Diagnosed >= 5 years ago,"Value represents average
+across category, including some people receiving immunosuppressive treatments"
+Non-haematological cancer,Diagnosed < 1 year ago,"Value represents average
+across category, including some people receiving immunosuppressive treatments"
+Non-haematological cancer,Diagnosed 1-4.9 years ago,"Value represents average
+across category, including some people receiving immunosuppressive treatments"
+Non-haematological cancer,Diagnosed >= 5 years ago,"Value represents average
+across category, including some people receiving immunosuppressive treatments"
+Other,Chronic neurological disease other than stroke or dementia,"Includes motor neurone disease,
+myasthenia gravis, multiple sclerosis, Parkinsons disease, cerebral palsy, quadriplegia,
+hemiplegia and progressive cerebellar disease"
+Other,Other chronic respiratory disease,"This is a broad group and clinical judgement may be needed to
+account for possible differences in vulnerability within the category"
+Other,Liver disease,"This is a broad group and clinical judgement may be needed to account for possible
+differences in vulnerability within the category"

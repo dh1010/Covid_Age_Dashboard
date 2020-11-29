@@ -1,5 +1,5 @@
 
-#' Run Covid age app
+#' Run Covid-age app
 #'
 #' @return
 #' @export

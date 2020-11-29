@@ -1,5 +1,5 @@
 Package: CovidAgeDashboard
-Title: Interface to the Covie-Age model
+Title: Interface to the Covid-Age model
 Version: 1.0.0.0
 Authors@R: 
     person(given = "David",

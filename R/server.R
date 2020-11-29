@@ -10,8 +10,8 @@
 #'
 app_server <- function(input, output, session) {
 
-      # If nothing is selected in the "other" group change input to "None"
-      # This silences errors in the variable matching.
+  #' To allow individual BS tool-tips other is a selection of parameters which may contain more than one selection.
+  #' This checks which of these boxes have been checked and creates a vector
       other <- shiny::reactive({
         tibble::tribble(
           ~variable, ~condition,
@@ -47,14 +47,18 @@ app_server <- function(input, output, session) {
           )
       })
 
+      #' Each user input will be mapped to a covid-age value
+      #' Here we sum up these values to derived an overall covid-age factor
       modifier <- shiny::reactive(
         user_profile() %>%
           dplyr::summarise(modifier = sum(value, na.rm = T)) %>%
           dplyr::pull()
       )
 
+      # Covid-age is equal to the above factor + the user's age
       covid_age <- shiny::reactive(modifier() + input$age_in)
 
+      #' Upper and lower fatality rates are extracted
       upper_fatality_rate <- shiny::reactive(
         Fatality_Rate %>%
           dplyr::filter(`Covid-age` == covid_age()) %>%
@@ -67,9 +71,7 @@ app_server <- function(input, output, session) {
           dplyr::pull(`Infection fatality rate per 1000 Lower bound`)
       )
 
-      # Calculate Covid-age using the user-input
-      # This is matched to data provided by the ALAMA group
-      # https://alama.org.uk/covid-19-medical-risk-assessment/
+      # Covid age output text
       output$covid_age <- shiny::renderUI({
         if (covid_age() < 20) {
           HTML(glue::glue("<h3>Covid-age: {input$age_in} + {modifier()} = 20-<h3/>"))
@@ -82,6 +84,7 @@ app_server <- function(input, output, session) {
         }
       })
 
+      # Fatality rate output
       output$covid_fatality <- shiny::renderUI({
         if (covid_age() < 20) {
           HTML(glue::glue("<h5>If infection occurs, the probability that it will be fatal is expected to lie between {min(Fatality_Rate$`Infection fatality rate per 1000 Lower bound`)} per 1000 and {min(Fatality_Rate$`Infection fatality rate per 1000 Upper bound`)} per 1000 <br/> For Covid-ages less than 20, the risk of fatality may be even lower than indicated<h5/>"))
@@ -117,7 +120,7 @@ app_server <- function(input, output, session) {
 
 
       # CALCULATE BMI -----------------------------------------------------------
-
+      #' If the user does not know their BMI a seperate BMI calculator has been supplied to facilitate this
       observeEvent(input$calc_bmi, {
         #
         shiny::showModal(shiny::modalDialog("",
@@ -157,8 +160,6 @@ app_server <- function(input, output, session) {
 
           bmi <- round(703 * (weight_lbs / height_inch^2), digits = 2)
         }
-
-
 
         if (bmi < 30) {
           bmi_round <- "Less than 30"

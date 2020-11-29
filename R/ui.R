@@ -15,6 +15,10 @@ app_ui <- function() {
   shiny::tagList(
   
   dashboardPage(
+    
+
+# Title with the ALAMA logo -----------------------------------------------
+
     dashboardHeader(
       title =span(img(src = "logo.jpg", width = "200px")),
       tags$li(div(h4("Covid-age"),
@@ -24,11 +28,16 @@ app_ui <- function() {
       )
     ),
     
+
+# Sidebar is disabled -----------------------------------------------------
+
     dashboardSidebar(
       collapsed = T,
       tags$script(htmlwidgets::JS("document.getElementsByClassName('sidebar-toggle')[0].style.visibility = 'hidden';"))
     ),
-    
+
+# Main body ---------------------------------------------------------------
+
     dashboardBody(
       tags$style("#covid_age {font-size:20px; display:block; }"),
       
@@ -45,6 +54,10 @@ app_ui <- function() {
         )
       )),
       fluidPage(
+        
+
+# User input column -------------------------------------------------------
+
         column(
           width = 6,
           box(
@@ -188,6 +201,10 @@ app_ui <- function() {
             ),
           )
         ),
+
+
+# Output column -----------------------------------------------------------
+
         column(
           width = 6,
           box(

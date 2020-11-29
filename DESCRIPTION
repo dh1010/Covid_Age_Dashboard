@@ -13,7 +13,14 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
-    magrittr
+    magrittr,
+    shiny,
+    shinydashboard,
+    devtools,
+    shinyBS,
+    dplyr,
+    reactable,
+    htmlwidgets
 Depends: 
     R (>= 2.10)
 Suggests: 

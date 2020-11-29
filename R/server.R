@@ -1,4 +1,13 @@
 
+#' Application Server
+#'
+#' @param input 
+#' @param output 
+#' @param session 
+#'
+#' @return
+#' @export
+#'
 app_server <- function(input, output, session) {
 
       # If nothing is selected in the "other" group change input to "None"

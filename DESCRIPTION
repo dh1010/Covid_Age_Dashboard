@@ -1,5 +1,5 @@
 Package: CovidAgeDashboard
-Title: What the Package Does (One Line, Title Case)
+Title: Interface to the Covie-Age model
 Version: 1.0.0.0
 Authors@R: 
     person(given = "David",
@@ -13,7 +13,14 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
-    magrittr
+    magrittr,
+    shiny,
+    shinydashboard,
+    devtools,
+    shinyBS,
+    dplyr,
+    reactable,
+    htmlwidgets
 Depends: 
     R (>= 2.10)
 Suggests: 

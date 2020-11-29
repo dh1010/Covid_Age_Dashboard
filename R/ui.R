@@ -10,6 +10,8 @@ library(shinydashboard)
 #' @import shinydashboard
 app_ui <- function() {
   
+  devtools::load_all()
+  
   shiny::tagList(
   
   dashboardPage(

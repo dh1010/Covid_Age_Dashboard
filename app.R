@@ -1,5 +1,5 @@
 # Launch the ShinyApp
 
-devtools::load_all()
+pkgload::load_all()
 
 run_app()

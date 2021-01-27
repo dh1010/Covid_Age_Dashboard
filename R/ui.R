@@ -219,7 +219,7 @@ app_ui <- function() {
           ),
           box(
             width = 12,
-            h5("Estimates of Covid-age are based on published epidemiological data and may be revised if new research is reported that materially changes the balance of available evidence. Where an individual has multiple health conditions the calculator may overestimate vulnerability somewhat, especially in young adults."),
+            h5("Estimates of personal vulnerability from the Covid-age calculator are derived from published research in populations with no previous infection by, or vaccination against, SARS-CoV-2.  As yet, no empirical data are available on whether and how determinants of vulnerability differ in people who have previously been infected or vaccinated. The estimates may be revised if new research is reported that materially changes the balance of available evidence."),
             h5("Risks associated with health conditions are estimated as averages and may vary within a disease category. Use clinical judgement to adjust the values where appropriate."),
             
             h5("Where a condition is not included because no adequate evidence is available, it may be reasonable to apply added year estimates  taken from other similar conditions that are listed. For example inflammatory bowel diseases and inflammatory skin diseases may have similar vulnerability to inflammatory joint diseases. Clinical judgement should be used."),

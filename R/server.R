@@ -73,6 +73,9 @@ app_server <- function(input, output, session) {
 
       # Covid age output text
       output$covid_age <- shiny::renderUI({
+        
+        shiny::req(covid_age())
+        
         if (covid_age() < 20) {
           HTML(glue::glue("<h3>Covid-age: {input$age_in} + {modifier()} = 20-<h3/>"))
         } else if (covid_age() <= 85) {
